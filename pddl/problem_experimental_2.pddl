@@ -15,7 +15,5 @@
     (robot_at wp0)
 ))
 
-;un-comment the following line if metric is needed
-;(:metric minimize (???))
 )
 
