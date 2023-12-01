@@ -1,0 +1,35 @@
+;Header and description
+
+(define (domain experimental_2)
+
+;remove requirements that are not needed
+(:requirements :strips :fluents :durative-actions :timed-initial-literals :typing :conditional-effects :negative-preconditions :duration-inequalities :equality)
+
+(:types 
+    waypoint
+    marker
+)
+
+; un-comment following line if constants are needed
+;(:constants )
+
+(:predicates 
+    (robot_at ?wp - waypoint)
+    (seen ?mk - marker)
+    (visible ?mk - marker ?wp - waypoint)
+)
+
+;define actions here
+(:action move
+    :parameters (?from - waypoint ?to - waypoint)
+    :precondition (and (robot_at ?from))
+    :effect (and (robot_at ?to) (not(robot_at ?from)) )
+)
+
+(:action detect
+    :parameters (?wp - waypoint ?mk - marker)
+    :precondition (and (robot_at ?wp) (visible ?mk ?wp))
+    :effect (and (seen ?mk) )
+)
+
+)
