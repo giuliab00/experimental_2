@@ -7,12 +7,18 @@ namespace KCL_rosplan {
 
     DetectMarkerInterface::DetectMarkerInterface(ros::NodeHandle &nh) {
         // here the initialization
-        clientMarkerVision = nh.serviceClient<experimental_2::markerVision>("/markerVision");
+        MarkerVisionSrv = experimental_2::markerVision markerVision;
+
+        clientMarkerVision = nh.serviceClient<experimental_2::markerVision>("/markerVision", true);
+
+        ros::service waitForService("/markerVision")
+        ROS_INFO("service /markerVision available");
     }
 
     bool DetectMarkerInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
         // here the implementation of the action
         ROS_INFO("Searching marker %s ", msg->parameters[2].value.c_str());
+        
         
         std::string marker_name = msg->parameters[2].value.c_str();
         int markerID;
@@ -25,9 +31,15 @@ namespace KCL_rosplan {
         }else if(marker_name == "mk15"){
             markerID = 15;
         }
-        
-        ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
-        return true;
+
+        MarkerVisionSrv.request.markerID = markerID;
+        if(clientMarkerVision.call(MarkerVisionSrv)){
+            ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
+            return true;
+        }
+
+        ROS_INFO("Action (%s): failed", msg->name.c_str());
+        return false;      
     }
 }
 

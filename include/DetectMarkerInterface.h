@@ -7,6 +7,7 @@ namespace KCL_rosplan {
         class DetectMarkerInterface: public RPActionInterface {
                 private:
                         ros::ServiceClient clientMarkerVision;
+                        experimental_2::markerVision MarkerVisionSrv; 
         public:
                 /* constructor */
                 DetectMarkerInterface(ros::NodeHandle &nh);
