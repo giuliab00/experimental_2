@@ -6,13 +6,12 @@
 namespace KCL_rosplan {
         class DetectMarkerInterface: public RPActionInterface {
                 private:
-                        ros::ServiceClient clientMarkerVision;
-                        experimental_2::markerVision MarkerVisionSrv; 
-        public:
-                /* constructor */
-                DetectMarkerInterface(ros::NodeHandle &nh);
-                
-                /* listen to and process action_dispatch topic */
-                bool concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg);
+                        ros::ServiceClient clientMarkerVision;                        
+                public:
+                        /* constructor */
+                        DetectMarkerInterface(ros::NodeHandle &nh);
+                        
+                        /* listen to and process action_dispatch topic */
+                        bool concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg);
         };
 }

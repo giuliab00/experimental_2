@@ -1,24 +1,25 @@
-#include "my_rosplan_interface/DetectMarkerInterface.h"
+#include <DetectMarkerInterface.h>
 #include <unistd.h>
-#include <string>
 #include "experimental_2/markerVision.h"
+#include "ros/ros.h"
 
 namespace KCL_rosplan {
 
     DetectMarkerInterface::DetectMarkerInterface(ros::NodeHandle &nh) {
         // here the initialization
-        MarkerVisionSrv = experimental_2::markerVision markerVision;
+        clientMarkerVision = nh.serviceClient<experimental_2::markerVision>("/markerVision");
 
-        clientMarkerVision = nh.serviceClient<experimental_2::markerVision>("/markerVision", true);
-
-        ros::service waitForService("/markerVision")
+        ROS_INFO("waiting for /markerVision service...");
+        if(!clientMarkerVision.waitForExistence(ros::Duration(5.0))){
+                ROS_ERROR("Service /markerVision not avaible");                
+        }
+                
         ROS_INFO("service /markerVision available");
     }
 
     bool DetectMarkerInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
         // here the implementation of the action
         ROS_INFO("Searching marker %s ", msg->parameters[2].value.c_str());
-        
         
         std::string marker_name = msg->parameters[2].value.c_str();
         int markerID;
@@ -31,7 +32,7 @@ namespace KCL_rosplan {
         }else if(marker_name == "mk15"){
             markerID = 15;
         }
-
+        experimental_2::markerVision MarkerVisionSrv;
         MarkerVisionSrv.request.markerID = markerID;
         if(clientMarkerVision.call(MarkerVisionSrv)){
             ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());

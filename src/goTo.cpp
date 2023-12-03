@@ -19,13 +19,15 @@
 #include <actionlib/client/terminal_state.h>
 #include <motion_plan/PlanningAction.h>
 #include "rosplan_action_interface/RPActionInterface.h"
-#include "experimental_2/GoToInterface.h"
+#include "GoToInterface.h"
 
 
 namespace KCL_rosplan {
+
 	GoToInterface::GoToInterface(ros::NodeHandle &nh) {
 		// here the initialization
 	}
+	
 	bool GoToInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
 		// here the implementation of the action
 		std::cout << "Going from " << msg->parameters[1].value << " to " << msg->parameters[2].value << std::endl;

@@ -17,16 +17,15 @@
 #include <unistd.h>
 #include "rosplan_action_interface/RPActionInterface.h"
 
-namespace KCL_Rosplan {
-	
-	class GoToInterface: public RPActionInterface
-	{
-		private:
-		
-		public:
-			/* constructor */
-			GoToInterface(ros::NodeHandle &nh);
-			/* listen to and process action_dispatch topic */
-			bool concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg);
-	};
+namespace KCL_rosplan {
+        class GoToInterface: public RPActionInterface {
+                private:
+                                                
+                public:
+                        /* constructor */
+                        GoToInterface(ros::NodeHandle &nh);
+                        
+                        /* listen to and process action_dispatch topic */
+                        bool concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg);
+        };
 }
