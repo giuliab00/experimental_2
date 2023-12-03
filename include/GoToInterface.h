@@ -30,8 +30,3 @@ namespace KCL_Rosplan {
 			bool concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg);
 	};
 }
-
-
-int main(int argc, char **argv){
-	
-}
