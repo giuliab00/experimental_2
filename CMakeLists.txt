@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   aruco_ros
   dynamic_reconfigure
+  rosplan_planning_system
 )
 
 ## System dependencies are found with CMake's conventions
