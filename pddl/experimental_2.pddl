@@ -3,7 +3,12 @@
 (define (domain experimental_2)
 
 ;remove requirements that are not needed
-(:requirements :strips :fluents :typing :disjunctive-preconditions :durative-action)
+(:requirements 
+	:strips 
+	:fluents 
+	:typing 
+	:disjunctive-preconditions 
+	:durative-actions)
 
 (:types 
     waypoint
