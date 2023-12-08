@@ -1,6 +1,7 @@
 (define (problem problem_experimetal_2) (:domain experimental_2)
 (:objects 
-    wp0 wp1 wp2 wp3 wp4 - waypoint
+    wp0 - home
+    wp1 wp2 wp3 wp4 - waypoint
     mk11 mk12 mk13 mk15 - marker
 )
 

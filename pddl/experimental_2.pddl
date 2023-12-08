@@ -13,10 +13,11 @@
 (:types 
     waypoint
     marker
+    home
 )
 
 (:predicates 
-    (robot_at ?wp - waypoint)
+    (robot_at ?x - (either home waypoint))
     (seen ?mk - marker)
     (visible ?mk - marker ?wp - waypoint)
 )
@@ -24,6 +25,20 @@
 ;define actions here
 (:durative-action move
     :parameters (?from ?to - waypoint)
+    :duration( = ?duration 10)
+    :condition (at start (robot_at ?from))
+    :effect (and (at end (robot_at ?to)) (at start (not(robot_at ?from))))
+)
+
+(:durative-action go_home
+    :parameters (?from - waypoint ?to - home)
+    :duration( = ?duration 10)
+    :condition (at start (robot_at ?from))
+    :effect (and (at end (robot_at ?to)) (at start (not(robot_at ?from))))
+)
+
+(:durative-action leave_home
+    :parameters (?from - home ?to - waypoint)
     :duration( = ?duration 10)
     :condition (at start (robot_at ?from))
     :effect (and (at end (robot_at ?to)) (at start (not(robot_at ?from))))
