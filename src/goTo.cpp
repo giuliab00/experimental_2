@@ -17,11 +17,11 @@
 #include <unistd.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
-#include <motion_plan/PlanningAction.h>
+//#include <motion_plan/PlanningAction.h>
 #include "rosplan_action_interface/RPActionInterface.h"
 #include "GoToInterface.h"
 
-
+/*
 namespace KCL_rosplan {
 
 	GoToInterface::GoToInterface(ros::NodeHandle &nh) {
@@ -73,4 +73,4 @@ int main(int argc, char **argv) {
 	KCL_rosplan::GoToInterface my_aci(nh);
 	my_aci.runActionInterface();
 	return 0;
-}
+}*/
