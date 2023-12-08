@@ -19,6 +19,8 @@ find_package(catkin REQUIRED COMPONENTS
   aruco_ros
   dynamic_reconfigure
   rosplan_planning_system
+  std_srvs
+  rosplan_dispatch_msgs
   actionlib_msgs
 )
 
@@ -76,7 +78,7 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   geometry_msgs std_msgs actionlib_msgs
+   geometry_msgs std_msgs actionlib_msgs std_srvs
 )
 
 ################################################
@@ -138,6 +140,7 @@ include_directories(
 add_executable(markerDetector src/markerDetector.cpp) 
 add_executable(detectMarkerInterface src/DetectMarkerInterface.cpp)
 add_executable(goTo src/goTo.cpp)
+add_executable(planLauncher src/planLauncher.cpp)
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
@@ -155,6 +158,7 @@ add_executable(goTo src/goTo.cpp)
 add_dependencies(markerDetector ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(detectMarkerInterface ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(goTo ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(planLauncher ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(markerDetector
@@ -164,6 +168,9 @@ target_link_libraries(detectMarkerInterface
    ${catkin_LIBRARIES} 
 )
 target_link_libraries(goTo
+   ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
+)
+target_link_libraries(planLauncher
    ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
 )
 
