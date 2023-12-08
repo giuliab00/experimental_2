@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+	
 	<node name="rosplan_interface_goto_waypoint" pkg="my_rosplan_interface" type="myaction" respawn="false" output="screen">
 		<param name="knowledge_base" value="rosplan_knowledge_base" />
 		<param name="pddl_action_name" value="goto_waypoint" />

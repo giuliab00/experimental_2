@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include "experimental_2/markerVision.h"
 #include "ros/ros.h"
+#include <actionlib/client/simple_action_client.h>
+#include <experimental_2/findMarkerAction.h>
 
 namespace KCL_rosplan {
 
@@ -32,15 +34,24 @@ namespace KCL_rosplan {
         }else if(marker_name == "mk15"){
             markerID = 15;
         }
-        experimental_2::markerVision MarkerVisionSrv;
-        MarkerVisionSrv.request.markerID = markerID;
-        if(clientMarkerVision.call(MarkerVisionSrv)){
-            ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
-            return true;
+        
+        actionlib::SimpleActionClient<experimental_2::findMarkerAction> ac("/findMarkerAction", true);
+        ROS_INFO("Waiting for action server to start.");
+        ac.waitForServer();
+        
+        experimental_2::findMarkerGoal goal;
+        goal.markerId = markerID;
+        ac.sendGoal(goal);
+        
+        bool res = ac.waitForResult(ros::Duration(60.0));
+        if(res){
+                ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
+                return true;
+        }else{
+                ROS_INFO("Action (%s): failed", msg->name.c_str());
+                return false; 
         }
 
-        ROS_INFO("Action (%s): failed", msg->name.c_str());
-        return false;      
     }
 }
 
