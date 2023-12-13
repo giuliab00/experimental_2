@@ -9,14 +9,7 @@ namespace KCL_rosplan {
 
     DetectMarkerInterface::DetectMarkerInterface(ros::NodeHandle &nh) {
         // here the initialization
-        clientMarkerVision = nh.serviceClient<experimental_2::markerVision>("/markerVision");
-
-        ROS_INFO("waiting for /markerVision service...");
-        if(!clientMarkerVision.waitForExistence(ros::Duration(5.0))){
-                ROS_ERROR("Service /markerVision not avaible");                
-        }
-                
-        ROS_INFO("service /markerVision available");
+        
     }
 
     bool DetectMarkerInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
@@ -34,13 +27,16 @@ namespace KCL_rosplan {
         }else if(marker_name == "mk15"){
             markerID = 15;
         }
-        
-        actionlib::SimpleActionClient<experimental_2::findMarkerAction> ac("/findMarkerAction", true);
-        ROS_INFO("Waiting for action server to start.");
-        ac.waitForServer();
-        
+
         experimental_2::findMarkerGoal goal;
         goal.markerId = markerID;
+
+        /*JUST TO MAKE THE THING WORKS*/
+        actionlib::SimpleActionClient<experimental_2::findMarkerAction> ac("/findMarkerAction", true);
+        ROS_INFO("Waiting for action server to start.");
+        ac.waitForServer();    
+        ROS_INFO("Action server /findMarkerAction available");
+
         ac.sendGoal(goal);
         
         bool res = ac.waitForResult(ros::Duration(60.0));

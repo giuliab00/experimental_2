@@ -91,7 +91,7 @@ class MarkerDetector {
 			killer_sub_ = nh_.subscribe("/task_complete",1, &MarkerDetector::killer_callback, this);
 			
 			//Read params	
-			nh_.param<bool>("pov_window", POV_window_b_, false);
+			nh_.param<bool>("pov_window", POV_window_b_, true);
 			
 			camParam_ = aruco::CameraParameters();
 			
@@ -129,7 +129,7 @@ class MarkerDetector {
 
 				// detect marker
 				mDetector_.detect(inImage_, markers_, camParam_, marker_size_, false);
-				
+								
 				for (std::size_t i = 0; i < markers_.size(); ++i) {
 					// draw detected markers on the image for visualization
 					markers_[i].draw(inImage_, cv::Scalar(0, 0, 255), 2);
@@ -140,7 +140,7 @@ class MarkerDetector {
 						//draw on the image the center of marker for visualization
 						cv::circle(inImage_, marker_center, 1, cv::Scalar(255, 255, 0), 2);
 						//draw on the image the center of camera for visualization
-						cv::circle(inImage_, camera_center, 3, cv::Scalar(0, 0, 255), 2);
+						//cv::circle(inImage_, camera_center, 3, cv::Scalar(0, 0, 255), 2);
 						
 						//set msg field
 						toSend.ack = 1; 						
