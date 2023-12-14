@@ -31,7 +31,7 @@ namespace KCL_rosplan {
 	bool GoToInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
 		// here the implementation of the action
 		std::cout << "Going from " << msg->parameters[1].value << " to " << msg->parameters[2].value << std::endl;
-		actionlib::SimpleActionClient<motion_plan::PlanningAction> ac("reaching_goal", true);
+		actionlib::SimpleActionClient<motion_plan::PlanningAction> ac("/reaching_goal", true);
 		motion_plan::PlanningGoal goal;
 		ac.waitForServer();
 		if(msg->parameters[2].value == "wp0"){

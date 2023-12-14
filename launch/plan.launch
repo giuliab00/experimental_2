@@ -46,12 +46,51 @@
 		<param name="action_feedback_topic" value="action_feedback" />
 	</node>
 	
-	<!-- simulated action -->
+	<!-- simulated action 
 	<include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
 		<arg name="pddl_action_name" value="move" />
 	</include>
 	<include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
 		<arg name="pddl_action_name" value="detect" />
 	</include>
+	-->
+	
+	<!-- Action Interface -->
+	
+	<!-- move -->
+	<node name="goTo_interface" pkg="experimental_2" type="goTo"
+	respawn="false" output="screen">
+	<param name="knowledge_base" value="rosplan_knowledge_base" />
+	<param name="pddl_action_name" value="move" />
+	<param name="action_dispatch_topic" value="/rosplan_plan_dispatcher/action_dispatch" />
+	<param name="action_feedback_topic" value="/rosplan_plan_dispatcher/action_feedback" />
+	</node>
+	
+	<!-- go_home -->
+	<node name="goTo_interface" pkg="experimental_2" type="goTo"
+	respawn="false" output="screen">
+	<param name="knowledge_base" value="rosplan_knowledge_base" />
+	<param name="pddl_action_name" value="go_home" />
+	<param name="action_dispatch_topic" value="/rosplan_plan_dispatcher/action_dispatch" />
+	<param name="action_feedback_topic" value="/rosplan_plan_dispatcher/action_feedback" />
+	</node>
+	
+	<!-- leave_home -->
+	<node name="goTo_interface" pkg="experimental_2" type="goTo"
+	respawn="false" output="screen">
+	<param name="knowledge_base" value="rosplan_knowledge_base" />
+	<param name="pddl_action_name" value="leave_home" />
+	<param name="action_dispatch_topic" value="/rosplan_plan_dispatcher/action_dispatch" />
+	<param name="action_feedback_topic" value="/rosplan_plan_dispatcher/action_feedback" />
+	</node>
+	
+	<!-- detect -->
+	<node name="goTo_interface" pkg="experimental_2" type="detectMarkerInterface"
+	respawn="false" output="screen">
+	<param name="knowledge_base" value="rosplan_knowledge_base" />
+	<param name="pddl_action_name" value="detect" />
+	<param name="action_dispatch_topic" value="/rosplan_plan_dispatcher/action_dispatch" />
+	<param name="action_feedback_topic" value="/rosplan_plan_dispatcher/action_feedback" />
+	</node>
 	
 </launch>
