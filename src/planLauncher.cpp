@@ -30,7 +30,7 @@ class PlanLauncher {
 			bool done = false;
 		
 			// init two services
-			ros::ServiceClient prob_gen = nh_.serviceClient<std_srvs::Empty>("//rosplan_problem_interface/problem_generation_server");
+			ros::ServiceClient prob_gen = nh_.serviceClient<std_srvs::Empty>("/rosplan_problem_interface/problem_generation_server");
 			ros::ServiceClient prob_solve = nh_.serviceClient<std_srvs::Empty>("/rosplan_planner_interface/planning_server");
 			ros::ServiceClient plan_disp = nh_.serviceClient<rosplan_dispatch_msgs::DispatchService>("/rosplan_plan_dispatcher/dispatch_plan");
 			
