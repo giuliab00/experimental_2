@@ -1,9 +1,5 @@
 #include <DetectMarkerInterface.h>
 #include <unistd.h>
-#include "experimental_2/markerVision.h"
-#include "ros/ros.h"
-#include <actionlib/client/simple_action_client.h>
-#include <experimental_2/findMarkerAction.h>
 
 namespace KCL_rosplan {
 

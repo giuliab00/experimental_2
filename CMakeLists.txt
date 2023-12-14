@@ -139,7 +139,7 @@ include_directories(
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_executable(markerDetector src/markerDetector.cpp) 
 add_executable(detectMarkerInterface src/DetectMarkerInterface.cpp)
-add_executable(goTo src/goTo.cpp)
+add_executable(goTo src/GoToInterface.cpp)
 add_executable(planLauncher src/planLauncher.cpp)
 
 ## Declare a C++ executable

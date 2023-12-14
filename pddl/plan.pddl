@@ -7,7 +7,7 @@ Initial heuristic = 8.000
 b (7.000 | 20.001)b (6.000 | 30.001)b (5.000 | 40.001)b (4.000 | 50.001)b (3.000 | 60.001)b (2.000 | 70.001)b (1.000 | 80.001);;;; Solution Found
 ; States evaluated: 19
 ; Cost: 90.001
-; Time 0.00
+; Time 0.01
 0.000: (leave_home wp0 wp1)  [10.000]
 10.001: (detect wp1 mk11)  [10.000]
 20.001: (move wp1 wp2)  [10.000]
