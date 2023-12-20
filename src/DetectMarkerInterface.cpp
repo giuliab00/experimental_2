@@ -32,9 +32,8 @@ namespace KCL_rosplan {
         ROS_INFO("Waiting for action server to start.");
         ac.waitForServer();    
         ROS_INFO("Action server /findMarkerAction available");
-
         ac.sendGoal(goal);
-        
+        sleep(1);
         bool res = ac.waitForResult(ros::Duration(60.0));
         if(res){
                 ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());

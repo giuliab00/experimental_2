@@ -44,9 +44,8 @@ namespace KCL_rosplan {
 			goal.target_pose.header.frame_id = "map";
 		}
 		ac.sendGoal(goal);
-		sleep(30);
+		sleep(1);
 		ac.waitForResult();
-		ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
 		ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
 		return true;
 	}
