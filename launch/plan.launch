@@ -46,15 +46,6 @@
 		<param name="action_feedback_topic" value="action_feedback" />
 	</node>
 	
-	<!-- simulated action 
-	<include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
-		<arg name="pddl_action_name" value="move" />
-	</include>
-	<include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
-		<arg name="pddl_action_name" value="detect" />
-	</include>
-	-->
-	
 	<!-- Action Interface -->
 	
 	<!-- move -->

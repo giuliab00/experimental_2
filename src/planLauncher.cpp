@@ -39,9 +39,9 @@ class PlanLauncher {
 			
 				// call the two services to start the plan
 				prob_gen.call(srv1);
-			
+				sleep(2);
 				prob_solve.call(srv2);
-			
+				sleep(2);
 				plan_disp.call(srv3);
 			
 				// get info about if we succeeded or failed

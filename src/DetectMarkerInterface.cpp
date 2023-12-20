@@ -1,4 +1,4 @@
-#include <DetectMarkerInterface.h>
+#include "../include/DetectMarkerInterface.h"
 #include <unistd.h>
 
 namespace KCL_rosplan {
@@ -7,7 +7,7 @@ namespace KCL_rosplan {
         // here the initialization
         
     }
-
+	
     bool DetectMarkerInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
         // here the implementation of the action
         ROS_INFO("Searching marker %s ", msg->parameters[2].value.c_str());
@@ -50,6 +50,7 @@ namespace KCL_rosplan {
 int main(int argc, char **argv) {
     ros::init(argc, argv, "my_rosplan_action", ros::init_options::AnonymousName);
     ros::NodeHandle nh("~");
+    ROS_INFO("Belin siamo in DetectMarkerInterface");
     KCL_rosplan::DetectMarkerInterface my_aci(nh);
     my_aci.runActionInterface();
     return 0;

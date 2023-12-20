@@ -25,28 +25,28 @@
 ;define actions here
 (:durative-action move
     :parameters (?from ?to - waypoint)
-    :duration( = ?duration 10)
+    :duration( = ?duration 60)
     :condition (at start (robot_at ?from))
     :effect (and (at end (robot_at ?to)) (at start (not(robot_at ?from))))
 )
 
 (:durative-action go_home
     :parameters (?from - waypoint ?to - home)
-    :duration( = ?duration 10)
+    :duration( = ?duration 60)
     :condition (at start (robot_at ?from))
     :effect (and (at end (robot_at ?to)) (at start (not(robot_at ?from))))
 )
 
 (:durative-action leave_home
     :parameters (?from - home ?to - waypoint)
-    :duration( = ?duration 10)
+    :duration( = ?duration 60)
     :condition (at start (robot_at ?from))
     :effect (and (at end (robot_at ?to)) (at start (not(robot_at ?from))))
 )
 
 (:durative-action detect
     :parameters (?wp - waypoint ?mk - marker)
-    :duration( = ?duration 10)
+    :duration( = ?duration 60)
     :condition (and (over all (robot_at ?wp)) (over all (visible ?mk ?wp)))
     :effect (at end (seen ?mk))
 )

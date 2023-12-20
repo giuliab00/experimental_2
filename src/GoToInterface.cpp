@@ -1,5 +1,5 @@
+#include "../include/GoToInterface.h"
 #include <unistd.h>
-#include "GoToInterface.h"
 
 namespace KCL_rosplan {
 
@@ -49,6 +49,7 @@ namespace KCL_rosplan {
 int main(int argc, char **argv) {
 	ros::init(argc, argv, "my_rosplan_action", ros::init_options::AnonymousName);
 	ros::NodeHandle nh("~");
+	ROS_INFO("Belin siamo in GoToInterface");
 	KCL_rosplan::GoToInterface my_aci(nh);
 	my_aci.runActionInterface();
 	return 0;
