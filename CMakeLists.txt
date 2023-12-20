@@ -140,6 +140,7 @@ include_directories(
 add_executable(markerDetector src/markerDetector.cpp) 
 add_executable(detectMarkerInterface src/DetectMarkerInterface.cpp)
 add_executable(goTo src/GoToInterface.cpp)
+add_executable(moveTo src/MoveToInterface.cpp)
 add_executable(planLauncher src/planLauncher.cpp)
 
 ## Declare a C++ executable
@@ -168,6 +169,9 @@ target_link_libraries(detectMarkerInterface
    ${catkin_LIBRARIES} 
 )
 target_link_libraries(goTo
+   ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
+)
+target_link_libraries(moveTo
    ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
 )
 target_link_libraries(planLauncher

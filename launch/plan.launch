@@ -49,7 +49,7 @@
 	<!-- Action Interface -->
 	
 	<!-- move -->
-	<node name="move_interface" pkg="experimental_2" type="goTo"
+	<node name="move_interface" pkg="experimental_2" type="moveTo"
 	respawn="false" output="screen">
 	<param name="knowledge_base" value="rosplan_knowledge_base" />
 	<param name="pddl_action_name" value="move" />
@@ -58,7 +58,7 @@
 	</node>
 	
 	<!-- go_home -->
-	<node name="go_home_interface" pkg="experimental_2" type="goTo"
+	<node name="go_home_interface" pkg="experimental_2" type="moveTo"
 	respawn="false" output="screen">
 	<param name="knowledge_base" value="rosplan_knowledge_base" />
 	<param name="pddl_action_name" value="go_home" />
@@ -67,7 +67,7 @@
 	</node>
 	
 	<!-- leave_home -->
-	<node name="leave_home_interface" pkg="experimental_2" type="goTo"
+	<node name="leave_home_interface" pkg="experimental_2" type="moveTo"
 	respawn="false" output="screen">
 	<param name="knowledge_base" value="rosplan_knowledge_base" />
 	<param name="pddl_action_name" value="leave_home" />

@@ -10,9 +10,9 @@ namespace KCL_rosplan {
 	
     bool DetectMarkerInterface::concreteCallback(const rosplan_dispatch_msgs::ActionDispatch::ConstPtr& msg) {
         // here the implementation of the action
-        ROS_INFO("Searching marker %s ", msg->parameters[2].value.c_str());
+        ROS_INFO("Searching marker %s ", msg->parameters[1].value.c_str());
         
-        std::string marker_name = msg->parameters[2].value.c_str();
+        std::string marker_name = msg->parameters[1].value.c_str();
         int markerID;
         if(marker_name == "mk11"){
             markerID = 11;
@@ -27,7 +27,7 @@ namespace KCL_rosplan {
         experimental_2::findMarkerGoal goal;
         goal.markerId = markerID;
 
-        /*JUST TO MAKE THE THING WORKS*/
+        //JUST TO MAKE THE THING WORKS
         actionlib::SimpleActionClient<experimental_2::findMarkerAction> ac("/findMarkerAction", true);
         ROS_INFO("Waiting for action server to start.");
         ac.waitForServer();    
@@ -43,6 +43,7 @@ namespace KCL_rosplan {
                 ROS_INFO("Action (%s): failed", msg->name.c_str());
                 return false; 
         }
+        return true;
 
     }
 }
