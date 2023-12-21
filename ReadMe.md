@@ -96,6 +96,8 @@ roslaunch experimental_2 rosbot.launch
 ### Video
 Here it is possible to find the video showing the behaviour in the lab
 
+https://github.com/giuliab00/experimental_2/assets/114100814/03702977-c51c-442b-aa60-66129e1c62c8
+
 Drawback and Possible improvements
 -------------------------
 There are different improvement regarding both the simulation and the real rosbot.
