@@ -142,6 +142,10 @@ Francesca
 Here it is possible to find the video showing the behaviour in the simulation:
 
 
+https://github.com/giuliab00/experimental_2/assets/114082533/923899ea-85ce-4414-8390-6cddc93c2ce1
+
+
+
 ROSBOT REAL LIFE
 ------------------------------------
 ### What changes
