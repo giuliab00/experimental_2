@@ -60,7 +60,7 @@ class FindMarker(object):
 		self.ack = False
 
 		while(not(self.ack)):
-			self.cmd.angular.z = 0.5
+			self.cmd.angular.z = 0.4
 			self.cmd_pub.publish(self.cmd)
 			self._feedback.time_elapsed = time.time() - starting_time
 			# publish the feedback
