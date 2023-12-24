@@ -57,7 +57,9 @@ In order to make a plan it has been created in PDDL firstly a *domain* then a *p
 
 ### Architecture and Pseudocode
 
+
 In order to achieve the solution it has been thought of the following architecture:
+![experimental_architecture](https://github.com/giuliab00/experimental_2/assets/114082533/52ba3d31-bdad-400b-9363-d0b0ab892b1e)
 
 ...
 
