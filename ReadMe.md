@@ -62,14 +62,60 @@ In order to achieve the solution it has been thought of the following architectu
 ...
 
 #### planLauncher Node
-This node
+This node named is responsible for coordinating and monitoring the execution of the plan. IT utilizes ROS services to generate, solve, parse, and dispatch plans. The PlanLauncher class encapsulates this functionality, with the main loop in the init_plan method ensuring the plan's success and goal achievement. The main function initializes the ROS node and calls the plan initialization method.
 ```    cpp
-Giulia
+Include necessary libraries
+
+Define PlanLauncher class
+    def __init__(self):
+        Initialize ROS NodeHandle
+
+    def init_plan(self):
+        Initialize services
+        done = False
+
+        while not done:
+            Trigger services to start the plan
+            Dispatch the plan
+
+            Extract success and goal achievement status
+            
+def main():
+    Create PlanLauncher instance
+    Call the init_plan method
 ```
 #### MoveToInterface Node
-This node
+This node defines a ROS action interface for a robot to move to specified waypoints using the MoveBase action server.
+
 ```    cpp
-Giulia
+Include necessary libraries
+
+Define the MoveToInterface class within the KCL_rosplan namespace
+     Constructor for the MoveToInterface class
+    
+    Implementation of the action in the concreteCallback method
+    
+        Setting target position and orientation based on the waypoint
+        if wp0
+            Set goal for waypoint 0
+        else if wp1
+            Set goal for waypoint 1
+        else if wp2
+            Set goal for waypoint 2
+        else if wp3
+            Set goal for waypoint 3
+        else if wp4
+            Set goal for waypoint 4
+        
+        Send goal to MoveBase
+        sleep(1);
+        waitForResult();
+        return true;
+   
+
+Main function
+    Initialize ROS node
+    Create MoveToInterface instance and run the action interface
 ```
 
 #### DetectMarkerInterface Node
