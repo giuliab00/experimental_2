@@ -11,21 +11,53 @@ How to download
 ----------------------
 
 In order to run the solution it is necessary to have the following ROS package:
-
+* OpenCV: that must be the same version of your ROS, in our case noetict. 
 ```bash
-git clone rosplablabla
+git clone https://github.com/ros-perception/vision_opencv
+git checkout noetic
+```
+* ArUco: in order to have the models of the marker in the simulation and all the libraries provided by ArUco to recognize the markers. The following is for ROS noetic
+```bash
+git clone https://github.com/CarmineD8/aruco_ros
+```
+In order to have the marker visible in the gazebo simulation move the folder **models** into the folder .\gazebo
+
+* Rosbot: For the simulation is important to have the model of the rosbot. This can be obtained with the following lines. Once again remember to branch to the correnct implementation for your ROS version.
+```bash
+git clone https://github.com/husarion/rosbot_ros
+git checkout noetic
 ```
 
+* ROSPlan:it is needed for the planning, in fact is provides a set of tool for AI Planning integrated with the ROS framework.
 ```bash
-git clone qualcosaltrodisicuro
+sudo apt get update
+(sudo) apt install flex bison freeglut3-dev libbdd-dev python3-catkin-tools ros-$ROS_DISTRO-tf2-bullet
+git clone https://github.com/KCL-Planning/ROSPlan
+```
+```
+- add the following string (“-Wno-error=deprecated-copy”) in line 92 of the CMakeLists.txt file from the 
+rosplan_dependies package.
+
+```
+then build the workspace
+
+* gmapping: In order to avoid obstacles in the environment the rosbot create a map of the environment as it goes using a laser scan. This is done using the gmapping slam algorith of ROS. To download it
+```bash
+sudo apt get update
+sudo apt-get install libsuitesparse-dev
+sudo apt-get install ros-<ros_distro>-openslam-gmapping
 ```
 
+* MoveBase: to move the rosbot in the environment the MoveBase package of the ROS Navigation stack wich is a motion planner using both a local and global planner and avoiding obstacles.
+```bash
+sudo apt-get update
+sudo apt-get install ros-<ros_distro>-navigation
+```
 
-Lastly you can finally download our package. 
+Lastly you can finally download our package and build the workspace. 
 ```bash
 git clone https://github.com/giuliab00/experimental_2
 ```
-
 
 SIMULATION 
 ------------------------------------
@@ -37,7 +69,7 @@ If you have followed the previous steps, it is possible to start the simulation 
 ```bash
 roslaunch experimental_2 sim_aruco2.launch
 ```
-this will open the simulation environment
+Once the simulation is open you can start the complete ehaviour of the rosbot, from the planning till the motion and the detection with the following line: 
 ```bash
 roslaunch experimental_2 rosbot.launch
 ```
@@ -61,7 +93,16 @@ In order to make a plan it has been created in PDDL firstly a *domain* then a *p
 In order to achieve the solution it has been thought of the following architecture:
 ![experimental_architecture](https://github.com/giuliab00/experimental_2/assets/114082533/52ba3d31-bdad-400b-9363-d0b0ab892b1e)
 
-...
+In this architecture there are some nodes used to found and dispatch the plan (knowledge Base, Problem Interface, Planner Interface, Parsing Interface, Plan Dispatcher and Action Interface) taken from the ROSPlan package. Then there are some node to control the behaviour: 
+
+The **PlanLauncher Node** start the planning procedure by making al the request to have in the end the dispatch of the plan. 
+
+The **DetectMarker Action Interface** correspond to the detect pddl action. When the detect action is dispatch it makes an Action Request to the findMarker node. The **findMarker Node** makes the robot rotate on himself until the marker isn't seen. To see the marker the **markerDetector Node** is used. 
+
+The **MoveTo Action Interface** correspond to three different pddl action (move, leave_home and go_home) and makes the robot move in the environment by sending the waypoint to reach to the **MoveBase Node**. 
+
+Lastly the ActionService nodes(findMarker and MoveBase) comunicate either with the simulation environment or the actual rosbot publishing the command velocity to make the robot move.
+
 
 #### planLauncher Node
 This node named is responsible for coordinating and monitoring the execution of the plan. IT utilizes ROS services to generate, solve, parse, and dispatch plans. The PlanLauncher class encapsulates this functionality, with the main loop in the init_plan method ensuring the plan's success and goal achievement. The main function initializes the ROS node and calls the plan initialization method.
@@ -121,9 +162,37 @@ Main function
 ```
 
 #### DetectMarkerInterface Node
-This node
+This node ereditates from the Action Interface of ROSplan and is the one active when a detect action is dispatched from the plan. In particular it makes a request to the findMarker Action Server and wait for the result for 60 seconds. If the goal isn't reach in 60 seconds it return false otherwise true. 
+In order to say that this node ereditates from the Action Interface one a header file has been written DetectMarkerInterface.h . This node have been developed in c++ and can be found in the src folder. 
 ```cpp
-Francesca
+#include DetectMarkerInterface.h
+#include unistd.h
+
+Constructor 
+
+bool concreteCallback(){
+    get the id of the marker to found;
+    create actionGoal goal;
+    set the ID of the marker to found;
+    create actionClient;
+    send goal to ActionClienr
+    wait result for 60 seconds;
+    if(result){
+        Action complete;
+        return true;
+    }
+    else {
+        Action did not complete;
+        return false;
+    }
+}
+
+main(){
+    init Node
+    start DetectMarkerInterface
+    run ActionInterface
+
+}
 ```
 
 #### markerDetector Node
@@ -181,9 +250,38 @@ main(){
 ```
 
 #### findMarkerAction Node
-This node
-```    cpp
-Francesca
+This node implement and Action Server that upon request make the robot turn on himself until the marker to found is not seen. To recognize the marker it publish the ID of the marker to found to markerDetector and wait for it to recognize. When MarkerDetector found the marker it will publish the information on the topic to which findMarker is subscribed and so findMarker stop the robot and Action is done. This code have been written in python and can be found in the scripts folder. 
+```    python
+
+import needed
+
+class finMarker(object):
+    Constructor:
+        Initialize variables
+        Initialize actionServer as
+        Initialize publisher and subscribers
+
+    Callback for markerPose subscription:
+        if(marker found  == marker to found):
+            Acknowledge marker detection
+        else
+            marker not found 
+
+    Action Callback:
+        publish(marker to found)
+        while(marker not found)
+            robot turn on itself
+            publish ActionFeedback time elapsed
+        stop 
+        set ActionResult = True
+        publish ActionResult
+
+main():
+    start node
+    create server
+	rospy.spin()
+
+
 ```
 
 ### Video
