@@ -11,7 +11,7 @@ How to download
 ----------------------
 
 In order to run the solution it is necessary to have the following ROS package:
-* OpenCV: that must be the same version of your ROS, in our case noetict. 
+* OpenCV: that must be the same version of your ROS, in our case *noetic*. 
 ```bash
 git clone https://github.com/ros-perception/vision_opencv
 git checkout noetic
@@ -22,26 +22,23 @@ git clone https://github.com/CarmineD8/aruco_ros
 ```
 In order to have the marker visible in the gazebo simulation move the folder **models** into the folder .\gazebo
 
-* Rosbot: For the simulation is important to have the model of the rosbot. This can be obtained with the following lines. Once again remember to branch to the correnct implementation for your ROS version.
+* Rosbot: for the simulation is important to have the rosbot model. This can be obtained with the following lines. Once again remember to branch to the correnct implementation for your ROS version.
 ```bash
 git clone https://github.com/husarion/rosbot_ros
 git checkout noetic
 ```
 
-* ROSPlan:it is needed for the planning, in fact is provides a set of tool for AI Planning integrated with the ROS framework.
+* ROSPlan:it is needed for the planning, in fact it provides a set of tool for AI Planning integrated with the ROS framework.
 ```bash
 sudo apt get update
 (sudo) apt install flex bison freeglut3-dev libbdd-dev python3-catkin-tools ros-$ROS_DISTRO-tf2-bullet
 git clone https://github.com/KCL-Planning/ROSPlan
 ```
-```
-- add the following string (“-Wno-error=deprecated-copy”) in line 92 of the CMakeLists.txt file from the 
-rosplan_dependies package.
 
-```
-then build the workspace
+add the string “-Wno-error=deprecated-copy” in line 92 of the CMakeLists.txt file from the rosplan_dependies package.
+Then build the workspace
 
-* gmapping: In order to avoid obstacles in the environment the rosbot create a map of the environment as it goes using a laser scan. This is done using the gmapping slam algorith of ROS. To download it
+* gmapping: In order to avoid obstacles in the environment the rosbot creates a map of the environment while it goes by using a laser scan. This is done using the gmapping slam algorith of ROS.
 ```bash
 sudo apt get update
 sudo apt-get install libsuitesparse-dev
@@ -54,7 +51,7 @@ sudo apt-get update
 sudo apt-get install ros-<ros_distro>-navigation
 ```
 
-Lastly you can finally download our package and build the workspace. 
+* Lastly you can finally download our package and build the workspace. 
 ```bash
 git clone https://github.com/giuliab00/experimental_2
 ```
@@ -79,13 +76,50 @@ while this launches the complete behaviour of the rosbot, from the planning till
 In order to make a plan it has been created in PDDL firstly a *domain* then a *problem* which will be later processed by a popf solver. The plan will be generated solved parsed and then dispatched.
 
 #### Domain
-...
+``` bash
+experimental_2/pddl/experimental_2.pddl
+```
+The domain involves the robot navigating through various waypoints, detecting markers, and performing actions such as moving between waypoints, returning and leaving home.
+
+The domain incorporates different **types**, including:
+- waypoints (locations the robot can visit); 
+- a specific home location, introduced for a better performance;
+- markers (objects the robot can detect), 
+ 
+
+**Predicates** are used to describe the robot's location, whether it has seen a marker, and the visibility of markers from specific waypoints.
+
+The key actions are durative actions, meaning they have a specified duration:
+
+- *move*: Rosbot moves from one waypoint to another in 30 time units.
+- *go_home*: Rosbot returns home from a waypoint in 30 time units.
+- *leave_home*: Rosbot leaves home and moves to a specified waypoint in 30 time units.
+- *detect*: Rosbot detects a marker from a specific waypoint in 10 time units.
+
+It may seem redundant, but the actions go and leave home have been introduced in order to make the plan artificially more efficient. Before this improvement the Rosbot was going to a waypoint and then back home before going to the next waypoint.
 
 #### Problem
-...
+``` bash
+experimental_2/pddl/problem_experimental_2.pddl
+```
+
+The objects in the problem include:
+- home location (wp0);
+- waypoints (wp1, wp2, wp3, wp4);
+- markers (mk11, mk12, mk13, mk15). 
+
+The initial conditions indicate that the robot starts at home (wp0), and various markers are initially visible from specific waypoints, as it was indicated in the slides.
+
+The goal of the problem states that the robot must achieve the following:
+- Detect markers mk11, mk12, mk13, and mk15.
+- Return to the home location (wp0).
 
 #### Plan
-...
+The resulting plan is at this directory:
+``` bash
+ROSPlan/rosplanplanningsystem/common/plan.pddl
+```
+It contains the instructions that the Rosbot has to follow to achieve the goal.
 
 ### Architecture and Pseudocode
 
@@ -93,13 +127,13 @@ In order to make a plan it has been created in PDDL firstly a *domain* then a *p
 In order to achieve the solution it has been thought of the following architecture:
 ![experimental_architecture](https://github.com/giuliab00/experimental_2/assets/114082533/52ba3d31-bdad-400b-9363-d0b0ab892b1e)
 
-In this architecture there are some nodes used to found and dispatch the plan (knowledge Base, Problem Interface, Planner Interface, Parsing Interface, Plan Dispatcher and Action Interface) taken from the ROSPlan package. Then there are some node to control the behaviour: 
+In this architecture there are nodes used to found and dispatch the plan (knowledge Base, Problem Interface, Planner Interface, Parsing Interface, Plan Dispatcher and Action Interface) taken from the ROSPlan package. Moreover there are nodes to control the behaviour: 
 
 The **PlanLauncher Node** start the planning procedure by making al the request to have in the end the dispatch of the plan. 
 
-The **DetectMarker Action Interface** correspond to the detect pddl action. When the detect action is dispatch it makes an Action Request to the findMarker node. The **findMarker Node** makes the robot rotate on himself until the marker isn't seen. To see the marker the **markerDetector Node** is used. 
+The **DetectMarker Action Interface** corresponds to the detect pddl action. When the detect action is dispatch it makes an Action Request to the findMarker node. The **findMarker Node** makes the robot rotate on himself until the marker isn't seen. To see the marker the **markerDetector Node** is used. 
 
-The **MoveTo Action Interface** correspond to three different pddl action (move, leave_home and go_home) and makes the robot move in the environment by sending the waypoint to reach to the **MoveBase Node**. 
+The **MoveTo Action Interface** corresponds to three different pddl action (move, leave_home and go_home) and makes the robot move in the environment by sending the waypoint to reach to the **MoveBase Node**. 
 
 Lastly the ActionService nodes(findMarker and MoveBase) comunicate either with the simulation environment or the actual rosbot publishing the command velocity to make the robot move.
 
@@ -156,7 +190,7 @@ Define the MoveToInterface class within the KCL_rosplan namespace
         return true;
    
 
-Main function
+def main():
     Initialize ROS node
     Create MoveToInterface instance and run the action interface
 ```
@@ -320,4 +354,6 @@ https://github.com/giuliab00/experimental_2/assets/114100814/03702977-c51c-442b-
 
 Drawback and Possible improvements
 -------------------------
-There are different improvement regarding both the simulation and the real rosbot.
+It is worth to underline how we took inspiration from the previous assignment possible improvement making the whole project more modular. 
+Nevertheless there are possible improvement regarding both the simulation and the real rosbot.
+One of them would concern dispatching again wether the plan fails. 
