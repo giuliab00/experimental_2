@@ -84,7 +84,7 @@ The domain involves the robot navigating through various waypoints, detecting ma
 The domain incorporates different **types**, including:
 - waypoints (locations the robot can visit); 
 - a specific home location, introduced for a better performance;
-- markers (objects the robot can detect), 
+- markers (objects the robot can detect).
  
 
 **Predicates** are used to describe the robot's location, whether it has seen a marker, and the visibility of markers from specific waypoints.
