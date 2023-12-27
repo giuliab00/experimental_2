@@ -9,6 +9,7 @@
 #include "std_msgs/Bool.h"
 #include "experimental_2/markerDistance.h"
 #include "opencv2/core/mat.hpp"
+#include "experimental_2/ackKill.h"
 #include "nav_msgs/Odometry.h"
 #include <cmath>
 #include <sstream>
@@ -16,14 +17,19 @@
 #include <opencv2/highgui.hpp>
 #include <aruco_ros/aruco_ros_utils.h>
 
-/*  subscriers:
- * 		- /camera/color/image_raw		: image from the camera
- *		- /camera/color/camera_info		: camera info for parameters
- *		- /requestMarkerId				: actual marker id desired
- * 
- * 	publishers:
- * 		- /debug/image_raw				: debug publisher
- * 		- /markerDistance				: marker data
+/*	
+	NOTE: This node is the same node used for detecting markers that has been used in the first assignment
+	      The only difference is that the camera center is no longer visible in the ROSbot POV 
+	      and the distance between the marker center and the camera center is no longer computed
+	
+	Subscribers:
+ 		- /camera/color/image_raw		: image from the camera
+		- /camera/color/camera_info		: camera info for parameters
+		- /requestMarkerId				: actual marker id desired
+
+ 	Publishers:
+		- /debug/image_raw				: debug publisher
+		- /markerDistance				: marker data
  */
 
 class MarkerDetector {
@@ -88,7 +94,7 @@ class MarkerDetector {
 			//subscriber to know the marker to found
 			requestMarkerId_sub_ = nh_.subscribe("/requestMarkerId",1, &MarkerDetector::find_marker_callback, this);
 
-			killer_sub_ = nh_.subscribe("/task_complete",1, &MarkerDetector::killer_callback, this);
+			killer_sub_ = nh_.subscribe("/kill_nodes",1, &MarkerDetector::killer_callback, this);
 			
 			//Read params	
 			nh_.param<bool>("pov_window", POV_window_b_, true);
@@ -189,19 +195,21 @@ class MarkerDetector {
 		        If recived a message of finish work this callback 
 		        ends the node
 		*/
-		void killer_callback(const std_msgs::Bool &msg){
-		        if(msg.data) ros::shutdown();
+		void killer_callback(const experimental_2::ackKill &msg){
+		        ros::shutdown();
 		}
+		
 				
 };
 
 int main(int argc, char **argv){
-	// init ros Node
+
+	// Init ros Node
 	ros::init(argc, argv, "marker_detector");	
 
-	//create markerDetecor
+	// Create markerDetecor
 	MarkerDetector node;
 	
-	//spin Node
+	// Spin Node
 	ros::spin();
 }

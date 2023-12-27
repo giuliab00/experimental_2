@@ -61,6 +61,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   markerDistance.msg
+  ackKill.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -139,7 +140,6 @@ include_directories(
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_executable(markerDetector src/markerDetector.cpp) 
 add_executable(detectMarkerInterface src/DetectMarkerInterface.cpp)
-add_executable(goTo src/GoToInterface.cpp)
 add_executable(moveTo src/MoveToInterface.cpp)
 add_executable(planLauncher src/planLauncher.cpp)
 
@@ -158,7 +158,7 @@ add_executable(planLauncher src/planLauncher.cpp)
 ## same as for the library above
 add_dependencies(markerDetector ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(detectMarkerInterface ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(goTo ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(moveTo ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(planLauncher ${${experimental_2}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
@@ -167,9 +167,6 @@ target_link_libraries(markerDetector
 )
 target_link_libraries(detectMarkerInterface
    ${catkin_LIBRARIES} 
-)
-target_link_libraries(goTo
-   ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
 )
 target_link_libraries(moveTo
    ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}

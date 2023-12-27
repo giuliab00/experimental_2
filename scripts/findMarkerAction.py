@@ -3,10 +3,21 @@ import rospy
 import math
 import time
 import actionlib
-from experimental_2.msg import markerDistance
+from experimental_2.msg import markerDistance, ackKill
 from experimental_2.msg import findMarkerGoal, findMarkerFeedback, findMarkerResult, findMarkerAction
 from geometry_msgs.msg import Twist, Pose2D
 from std_msgs.msg import Bool, Float32, Int32
+
+"""
+	This node is the action server which executes the action of searching a marker
+	
+	Publishers:   - /cmd_vel :		Linear/angular velocity the robot should have
+	              - /requestMarkerId :	Marker id (to find the right one among all markers)
+	            
+	Subscribers:  - /markerDistance : 	Goal position, taken from marker detection
+	
+	Actions:      - /findMarkerAction :	Action server that implements the research of a marker
+"""
 
 class FindMarker(object):	
 
@@ -32,6 +43,8 @@ class FindMarker(object):
 
 		# Subscribe to the topic for goal position from marker detection
 		self.sub_marker_dist = rospy.Subscriber("/markerDistance", markerDistance, self.clbk_vision)
+		
+		self.sub_kill = rospy.Subscriber("/kill_nodes", ackKill, self.clbk_kill)
 
 		# Publish for /requestMarkerId
 		self.pub_marker_id = rospy.Publisher("/requestMarkerId", Int32, queue_size=10)
@@ -43,12 +56,18 @@ class FindMarker(object):
 	# Callback for markerPose subscription
 	def clbk_vision(self, msg):
 		if(msg.marker_id == self.to_found):
+		
 			# Acknowledge marker detection
 			self.ack = msg.ack			
-		else :
+		else:
+		
 			#wrong/old marker found 
 			self.ack = False
 
+	def clbk_kill(self, msg):
+		rospy.signal_shutdown("")
+
+	# Callback function for executing the action
 	def execute_callback(self, goal):
 
 		rospy.loginfo("Executing find marker id : %d" % goal.markerId)
@@ -60,20 +79,29 @@ class FindMarker(object):
 		self.ack = False
 
 		while(not(self.ack)):
+		
+			# While the marker is not found, we make the robot rotate on itself
 			self.cmd.angular.z = 0.4
 			self.cmd_pub.publish(self.cmd)
+			
+			# We compute the elapsed time in order to publish it as action feedback
 			self._feedback.time_elapsed = time.time() - starting_time
-			# publish the feedback
 			self._as.publish_feedback(self._feedback)
 
+		# When the marker is found, the robot stops its rotation
 		self.cmd.angular.z = 0
 		self.cmd_pub.publish(self.cmd)
 
+		# The success of the research is set to True and sent as action result
 		self._result.found = True
 		rospy.loginfo('Action Succeeded, markerId : %d founded' % goal.markerId)
 		self._as.set_succeeded(self._result)
 
 if __name__ == '__main__':
+
+	# Create the node and a FindMarker object
 	rospy.init_node('findMarker')
 	server = FindMarker(rospy.get_name())
+	
+	# Spin the node
 	rospy.spin()
