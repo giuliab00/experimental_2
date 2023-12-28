@@ -22,6 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_srvs
   rosplan_dispatch_msgs
   actionlib_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions

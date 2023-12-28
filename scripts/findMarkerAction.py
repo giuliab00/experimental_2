@@ -1,12 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
-import math
 import time
 import actionlib
 from experimental_2.msg import markerDistance, ackKill
-from experimental_2.msg import findMarkerGoal, findMarkerFeedback, findMarkerResult, findMarkerAction
-from geometry_msgs.msg import Twist, Pose2D
-from std_msgs.msg import Bool, Float32, Int32
+from experimental_2.msg import findMarkerFeedback, findMarkerResult, findMarkerAction
+from geometry_msgs.msg import Twist
+from std_msgs.msg import Int32
 
 """
 	This node is the action server which executes the action of searching a marker

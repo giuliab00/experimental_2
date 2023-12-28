@@ -87,11 +87,8 @@ class PlanLauncher {
 				
 				kill.ack = goal;
 				kill_pub.publish(kill);
-			
 			}
-			
 		}
-	
 };
 
 int main(int argc, char **argv){

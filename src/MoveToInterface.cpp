@@ -7,7 +7,7 @@
 	In this action interface, movement between waypoints is implemented to be done in the simulation
 	
 	Actions: - /move_base :	it allows the robot to navigate towards a goal 
-	                               in an environment with obstacles, allowing it to use both a local and a global planner
+	        				in an environment with obstacles, allowing it to use both a local and a global planner
 */
 
 namespace KCL_rosplan {

@@ -13,7 +13,6 @@ namespace KCL_rosplan {
 
     // Initialization
     DetectMarkerInterface::DetectMarkerInterface(ros::NodeHandle &nh) {
-        
     }
     
     void killCallback(const experimental_2::ackKill::ConstPtr& msg) {
@@ -61,14 +60,13 @@ namespace KCL_rosplan {
         
         // We check whether the action succeded or failed and then we print a message to let the user know about it
         if(res){
-                ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
-                return true;
+            ROS_INFO("Action (%s) performed: completed!", msg->name.c_str());
+            return true;
         }else{
-                ROS_INFO("Action (%s): failed", msg->name.c_str());
-                return false; 
+            ROS_INFO("Action (%s): failed", msg->name.c_str());
+            return false; 
         }
         return true;
-
     }
 }
 
