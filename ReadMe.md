@@ -344,7 +344,7 @@ Another important change that has been implemented is the maximum obstacle heigh
 By sharing the roscore with the rosbot, after enabling it already in the starting waypoint, it will be needed to launch the following command:
 
 ```bash
-roslaunch experimental_2 rosbot.launch check tabi
+roslaunch experimental_2 rosbot.launch
 ```
 
 ### Video
