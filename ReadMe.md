@@ -329,7 +329,7 @@ https://github.com/giuliab00/experimental_2/assets/114082533/923899ea-85ce-4414-
 ROSBOT REAL LIFE
 ------------------------------------
 ### What changes
-The behavipur of the robot and the robot architecture remain the same. Nevertheless, in order to run the solution with the rosbot some slight changes must be applied.
+The behaviour of the robot and the robot architecture remain the same. Nevertheless, in order to run the solution with the rosbot some slight changes must be applied.
 First of all the positions of the waypoint are surely different from the simulation. The waypoint have been placed into the lab in correspondance of the marker that have been hang. Then after deciding the placement of the starting waypoint (0,0) all the coordinates have been roughly measured as follows:
 
 - marker 11 is visible from the position x = 2.2, y = 1.8
@@ -355,5 +355,5 @@ https://github.com/giuliab00/experimental_2/assets/114100814/03702977-c51c-442b-
 Drawback and Possible improvements
 -------------------------
 It is worth to underline how we took inspiration from the previous assignment possible improvement making the whole project more modular. 
-Nevertheless there are possible improvement regarding both the simulation and the real rosbot.
+Nevertheless there are possible improvements regarding both the simulation and the real rosbot.
 One of them would concern dispatching again wether the plan fails. Another drawback is the latency due to the time taken for dispatching and its consecutive activation.
