@@ -117,7 +117,7 @@ The goal of the problem states that the robot must achieve the following:
 #### Plan
 The resulting plan is at this directory:
 ``` bash
-ROSPlan/rosplanplanningsystem/common/plan.pddl
+ROSPlan/rosplan_planning_system/common/plan.pddl
 ```
 It contains the instructions that the Rosbot has to follow to achieve the goal.
 
