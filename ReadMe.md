@@ -356,4 +356,4 @@ Drawback and Possible improvements
 -------------------------
 It is worth to underline how we took inspiration from the previous assignment possible improvement making the whole project more modular. 
 Nevertheless there are possible improvement regarding both the simulation and the real rosbot.
-One of them would concern dispatching again wether the plan fails. 
+One of them would concern dispatching again wether the plan fails. Another drawback is the latency due to the time taken for dispatching and its consecutive activation.
